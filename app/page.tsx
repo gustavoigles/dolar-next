@@ -328,7 +328,7 @@ export default async function Home () {
 
   return (
     <main className='flex min-h-screen flex-col items-center justify-center p-5'>
-      <h1 className='text-3xl mb-12'>Cotizaciones del Dólar</h1>
+      <h1 className='text-3xl mb-12 text-white'>Cotizaciones del Dólar</h1>
       <div className='flex flex-wrap gap-4 w-full justify-center'>
         <Dolar dolar={data.oficial} />
         <Dolar dolar={data.informal} />
