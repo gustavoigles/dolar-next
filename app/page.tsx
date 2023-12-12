@@ -271,7 +271,7 @@ export default async function Home () {
     return (
       <div className='relative w-80 z-30 animatable animate-fade-up in-viewport'>
         <a className='box h-full hover-box flex flex-col relative  z-30'>
-          <h3 className='capitalize text-xl mb-0 my-0 max-w-[250px]'>
+          <h3 className='capitalize text-xl mb-0 my-0 max-w-[250px] text-white'>
             {dolar.name}
           </h3>
           <span className='text-gray-500 text-sm'>
@@ -284,12 +284,12 @@ export default async function Home () {
                 <span className='metric text-5xl md:text-sm mb-4 bg-red-white bg-clip-text text-white'>
                   <div className='flex flex-col'>
                     <span className='text-lg mb-1'>Venta</span>
-                    <span className='text-2xl'>${dolar.buy}</span>
+                    <span className='text-2xl text-white'>${dolar.buy}</span>
                   </div>
                 </span>
                 <span className='metric text-5xl md:text-sm mb-4 bg-clip-text'>
                   <div className='flex flex-col'>
-                    <span className='text-lg mb-1'>Compra</span>
+                    <span className='text-lg mb-1 text-white'>Compra</span>
                     <span className='text-2xl text-green-500'>
                       ${dolar.sell}
                     </span>
@@ -301,7 +301,7 @@ export default async function Home () {
                 {' '}
                 <span className='metric text-5xl md:text-sm mb-4 bg-clip-text'>
                   <div className='flex flex-col'>
-                    <span className='text-lg'>Venta</span>
+                    <span className='text-xl text-white'>Venta</span>
                     <span className='text-2xl text-green-500'>
                       ${dolar.buy ?? dolar.sell}
                     </span>
