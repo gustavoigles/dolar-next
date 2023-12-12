@@ -1,112 +1,345 @@
-import Image from 'next/image'
+export interface Data {
+  oficial: Oficial
+  tarjeta: Tarjeta
+  mep: Mep
+  ccl: Ccl
+  fiwind: Fiwind
+  letsBit: LetsBit
+  plusCambio: PlusCambio
+  ledesMep: LedesMep
+  ledesCcl: LedesCcl
+  informal: Informal
+  mayorista: Mayorista
+  netflix: Netflix
+  cripto: Cripto
+  $uxd: Uxd
+  tiendaBroker: TiendaBroker
+  plusInversiones: PlusInversiones
+  deepBlue: any
+}
 
-export default function Home() {
+export interface Oficial {
+  name: string
+  buy: number
+  sell: number
+  timestamp: number
+  variation: number
+  spread: number
+  volumen: any
+}
+
+export interface Tarjeta {
+  name: string
+  buy: number
+  sell: number
+  timestamp: number
+  variation: number
+  spread: number
+  volumen: any
+}
+
+export interface Mep {
+  name: string
+  buy: any
+  sell: number
+  timestamp: number
+  variation: number
+  volumen: number
+  extra: Extra
+}
+
+export interface Extra {
+  referenceBuy1: string[]
+  referenceBuy2: string[]
+}
+
+export interface Ccl {
+  name: string
+  buy: any
+  sell: number
+  timestamp: number
+  variation: number
+  volumen: number
+  extra: Extra2
+}
+
+export interface Extra2 {
+  referenceBuy1: string[]
+  referenceBuy2: string[]
+}
+
+export interface Fiwind {
+  name: string
+  buy: number
+  sell: number
+  timestamp: number
+  variation: any
+  spread: number
+  volumen: any
+}
+
+export interface LetsBit {
+  name: string
+  buy: number
+  sell: number
+  timestamp: number
+  variation: any
+  spread: number
+  volumen: any
+}
+
+export interface PlusCambio {
+  name: string
+  buy: number
+  sell: number
+  timestamp: number
+  variation: any
+  spread: number
+  volumen: any
+}
+
+export interface LedesMep {
+  name: string
+  buy: any
+  sell: number
+  timestamp: number
+  variation: number
+  volumen: number
+  extra: Extra3
+}
+
+export interface Extra3 {
+  referenceBuy1: string[]
+  referenceBuy2: string[]
+}
+
+export interface LedesCcl {
+  name: string
+  buy: any
+  sell: number
+  timestamp: number
+  variation: number
+  volumen: number
+  extra: Extra4
+}
+
+export interface Extra4 {
+  referenceBuy1: string[]
+  referenceBuy2: string[]
+}
+
+export interface Informal {
+  name: string
+  buy: number
+  sell: number
+  timestamp: number
+  variation: number
+  spread: number
+  volumen: any
+}
+
+export interface Mayorista {
+  name: string
+  buy: number
+  sell: number
+  timestamp: number
+  variation: number
+  spread: number
+  volumen: any
+}
+
+export interface Netflix {
+  name: string
+  buy: number
+  sell: number
+  timestamp: number
+  variation: number
+  spread: number
+  volumen: any
+}
+
+export interface Cripto {
+  name: string
+  buy: number
+  sell: number
+  timestamp: number
+  variation: number
+  spread: number
+  volumen: any
+}
+
+export interface Uxd {
+  name: string
+  buy: number
+  sell: number
+  timestamp: number
+  variation: any
+  spread: number
+  volumen: any
+}
+
+export interface TiendaBroker {
+  name: string
+  buy: any
+  sell: number
+  timestamp: number
+  variation: any
+  volumen: any
+}
+
+export interface PlusInversiones {
+  name: string
+  buy: any
+  sell: number
+  timestamp: number
+  variation: any
+  volumen: any
+}
+
+async function getDolar () {
+  const response = await fetch(
+    'https://www.dolarito.ar/api/frontend/quotations/dolar',
+    {
+      headers: {
+        authority: 'www.dolarito.ar',
+        accept: 'application/json, text/plain, */*',
+        'accept-language': 'es-US,es;q=0.9',
+        'auth-client': '99559ef69ca740083c9bd2b862460ab8',
+        'cache-control': 'no-cache',
+        cookie:
+          '_gcl_au=1.1.1308940708.1701193964; _ga=GA1.1.992466810.1701193964; _ga_TVG8CMMVVH=GS1.1.1701193963.1.0.1701193963.0.0.0',
+        pragma: 'no-cache',
+        referer: 'https://www.dolarito.ar/',
+        'sec-ch-ua':
+          '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+        'sec-ch-ua-mobile': '?1',
+        'sec-ch-ua-platform': '"Android"',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-origin',
+        'user-agent':
+          'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36'
+      },
+      next: { revalidate: 400 }
+    }
+  )
+  const data = await response.json()
+  return data
+}
+
+export default async function Home () {
+  const data: Data = await getDolar()
+
+  function returnHumanReadableSpanishTimestapmToData (timestamp: number) {
+    const date = new Date(timestamp)
+    const now = new Date()
+    const seconds = Math.round((now.getTime() - date.getTime()) / 1000)
+    const minutes = Math.round(seconds / 60)
+    const hours = Math.round(minutes / 60)
+    const days = Math.round(hours / 24)
+    const months = Math.round(days / 30)
+    const years = Math.round(days / 365.25)
+
+    if (seconds < 5) {
+      return 'Hace unos segundos'
+    } else if (seconds < 60) {
+      return `Hace ${seconds} segundos`
+    } else if (seconds < 90) {
+      return 'Hace un minuto'
+    } else if (minutes < 60) {
+      return `Hace ${minutes} minutos`
+    } else if (minutes < 90) {
+      return 'Hace una hora'
+    } else if (hours < 24) {
+      return `Hace ${hours} horas`
+    } else if (hours < 36) {
+      return 'Hace un día'
+    } else if (days < 30) {
+      return `Hace ${days} días`
+    } else if (days < 45) {
+      return 'Hace un mes'
+    } else if (days < 365) {
+      return `Hace ${months} meses`
+    } else if (years < 1.5) {
+      return 'Hace un año'
+    } else {
+      return `Hace ${years} años`
+    }
+  }
+
+  function Dolar ({ dolar }: any) {
+    return (
+      <div className='relative w-80 z-30 animatable animate-fade-up in-viewport'>
+        <a className='box h-full hover-box flex flex-col relative  z-30'>
+          <h3 className='capitalize text-xl mb-0 my-0 max-w-[250px]'>
+            {dolar.name}
+          </h3>
+          <span className='text-gray-500 text-sm'>
+            {returnHumanReadableSpanishTimestapmToData(dolar.timestamp)}{' '}
+            {dolar.spread ? `- Spread: $${dolar.spread}` : null}
+          </span>
+          <div className='mt-4'>
+            {dolar.buy && dolar.sell ? (
+              <div className='flex gap-8'>
+                <span className='metric text-5xl md:text-sm mb-4 bg-red-white bg-clip-text text-white'>
+                  <div className='flex flex-col'>
+                    <span className='text-lg mb-1'>Venta</span>
+                    <span className='text-2xl'>${dolar.buy}</span>
+                  </div>
+                </span>
+                <span className='metric text-5xl md:text-sm mb-4 bg-clip-text'>
+                  <div className='flex flex-col'>
+                    <span className='text-lg mb-1'>Compra</span>
+                    <span className='text-2xl text-green-500'>
+                      ${dolar.sell}
+                    </span>
+                  </div>
+                </span>
+              </div>
+            ) : (
+              <>
+                {' '}
+                <span className='metric text-5xl md:text-sm mb-4 bg-clip-text'>
+                  <div className='flex flex-col'>
+                    <span className='text-lg'>Venta</span>
+                    <span className='text-2xl text-green-500'>
+                      ${dolar.buy ?? dolar.sell}
+                    </span>
+                  </div>
+                </span>
+              </>
+            )}
+          </div>
+        </a>
+        {dolar.variation < 0 ? (
+          <div className='absolute bottom-0 z-[999] w-full h-1 bg-red-700'></div>
+        ) : null}
+
+        {dolar.variation > 0 ? (
+          <div className='absolute bottom-0 z-[999] w-full h-1 bg-green-700'></div>
+        ) : null}
+
+        {!dolar.variation ? (
+          <div className='absolute bottom-0 z-[999] w-full h-1 bg-gray-700'></div>
+        ) : null}
+      </div>
+    )
+  }
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+    <main className='flex min-h-screen flex-col items-center justify-center p-5'>
+      <h1 className='text-3xl mb-12'>Cotizaciones del Dólar</h1>
+      <div className='flex flex-wrap gap-4 w-full justify-center'>
+        <Dolar dolar={data.oficial} />
+        <Dolar dolar={data.informal} />
+        <Dolar dolar={data.cripto} />
+        <Dolar dolar={data.mep} />
+        <Dolar dolar={data.ledesMep} />
+        <Dolar dolar={data.ccl} />
+        <Dolar dolar={data.ledesCcl} />
+        <Dolar dolar={data.plusCambio} />
+        <Dolar dolar={data.letsBit} />
+        <Dolar dolar={data.fiwind} />
       </div>
     </main>
   )
